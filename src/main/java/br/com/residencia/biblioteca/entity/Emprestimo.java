@@ -1,0 +1,96 @@
+package br.com.residencia.biblioteca.entity;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table (name = "emprestimo")
+public class Emprestimo {
+	
+	//aluno para emprestimo 1 para muitos 
+	//livro para emprestimo 1 para 1
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column (name = "codigoemprestimo")
+	private Integer codigoEmprestimo;
+	
+	@Column (name = "dataemprestimo")
+	private Instant dataEmprestimo;
+	
+	@Column (name = "dataentrega")
+	private Instant dataEntrega;
+	
+	@Column (name = "dataentrega")
+	private BigDecimal valoremprestimo;
+	
+	@ManyToOne //Muitos emprestimos podem ser feitos por um aluno. 
+	@JoinColumn (name = "numeromatriculaaluno", referencedColumnName = "numeromatriculaaluno") 
+	private Aluno aluno; //intânciei
+	
+	@OneToOne //Um livro x pode ter um empréstimo por vez
+	@JoinColumn (name = "codigolivro", referencedColumnName = "codigolivro")
+	private Livro livro; //intânciei
+	
+
+	public Integer getCodigoEmprestimo() {
+		return codigoEmprestimo;
+	}
+
+	public void setCodigoEmprestimo(Integer codigoEmprestimo) {
+		this.codigoEmprestimo = codigoEmprestimo;
+	}
+
+	public Instant getDataEmprestimo() {
+		return dataEmprestimo;
+	}
+
+	public void setDataEmprestimo(Instant dataEmprestimo) {
+		this.dataEmprestimo = dataEmprestimo;
+	}
+
+	public Instant getDataEntrega() {
+		return dataEntrega;
+	}
+
+	public void setDataEntrega(Instant dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+
+	public BigDecimal getValoremprestimo() {
+		return valoremprestimo;
+	}
+
+	public void setValoremprestimo(BigDecimal valoremprestimo) {
+		this.valoremprestimo = valoremprestimo;
+	}
+
+	public Aluno getAluno() {
+		return aluno;
+	}
+
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
+	}
+
+	public Livro getLivro() {
+		return livro;
+	}
+
+	public void setLivro(Livro livro) {
+		this.livro = livro;
+	}
+
+}
