@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -39,8 +38,11 @@ public class Livro {
 	@JoinColumn (name = "codigoeditora", referencedColumnName = "codigoeditora") 
 	private Editora editora; //criei uma instancia da classe editora para fazer o relacionamento
 	
-	@OneToOne (mappedBy = "livro")//Um empréstimo pode ter um livro x
-	private Emprestimo emprestimo; //instancia para fazer relacionamento
+	//@OneToOne (mappedBy = "livro")//Um livro pode ser emprestado 1 vez
+	//private Emprestimo emprestimo; //instancia para fazer relacionamento
+	
+	@OneToMany (mappedBy = "livro")//Um livro pode ser emprestado n vezes 
+	private Set<Emprestimo> emprestimos;
 
 	
 	public Integer getCodigoLivro() {
@@ -91,13 +93,12 @@ public class Livro {
 		this.editora = editora;
 	}
 
-	public Emprestimo getEmprestimo() {
-		return emprestimo;
+	public Set<Emprestimo> getEmprestimos() {
+		return emprestimos;
 	}
 
-	public void setEmprestimo(Emprestimo emprestimo) {
-		this.emprestimo = emprestimo;
-	}
-	
+	public void setEmprestimos(Set<Emprestimo> emprestimos) {
+		this.emprestimos = emprestimos;
+	}	
 	
 }

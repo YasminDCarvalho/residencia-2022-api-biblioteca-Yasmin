@@ -2,7 +2,6 @@ package br.com.residencia.biblioteca.entity;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -33,16 +30,21 @@ public class Emprestimo {
 	@Column (name = "dataentrega")
 	private Instant dataEntrega;
 	
-	@Column (name = "dataentrega")
-	private BigDecimal valoremprestimo;
+	@Column (name = "valoremprestimo")
+	private BigDecimal valorEmprestimo;
 	
 	@ManyToOne //Muitos emprestimos podem ser feitos por um aluno. 
 	@JoinColumn (name = "numeromatriculaaluno", referencedColumnName = "numeromatriculaaluno") 
 	private Aluno aluno; //intânciei
 	
-	@OneToOne //Um livro x pode ter um empréstimo por vez
+	//@OneToOne //Um livro x pode ter um empréstimo por vez
+	//@JoinColumn (name = "codigolivro", referencedColumnName = "codigolivro")
+	//private Livro livro; //intânciei
+	
+	@ManyToOne //Um livro pode ter n empréstimos por vez
 	@JoinColumn (name = "codigolivro", referencedColumnName = "codigolivro")
 	private Livro livro; //intânciei
+	
 	
 
 	public Integer getCodigoEmprestimo() {
@@ -69,12 +71,12 @@ public class Emprestimo {
 		this.dataEntrega = dataEntrega;
 	}
 
-	public BigDecimal getValoremprestimo() {
-		return valoremprestimo;
+	public BigDecimal getValorEmprestimo() {
+		return valorEmprestimo;
 	}
 
-	public void setValoremprestimo(BigDecimal valoremprestimo) {
-		this.valoremprestimo = valoremprestimo;
+	public void setValorEmprestimo(BigDecimal valorEmprestimo) {
+		this.valorEmprestimo = valorEmprestimo;
 	}
 
 	public Aluno getAluno() {

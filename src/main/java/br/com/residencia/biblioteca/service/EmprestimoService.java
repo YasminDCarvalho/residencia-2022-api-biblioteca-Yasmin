@@ -19,7 +19,8 @@ public class EmprestimoService {
 	}
 	
 	public Emprestimo getEmprestimoById(Integer id) {
-		return emprestimoRepository.findById(id).get();
+		//return emprestimoRepository.findById(id).get();
+		return emprestimoRepository.findById(id).orElse(null);
 	}
 
 	public Emprestimo saveEmprestimo(Emprestimo emprestimo) {
@@ -32,7 +33,7 @@ public class EmprestimoService {
 		
 		emprestimoExistenteNoBanco.setDataEmprestimo(emprestimo.getDataEmprestimo());
 		emprestimoExistenteNoBanco.setDataEntrega(emprestimo.getDataEntrega());
-		emprestimoExistenteNoBanco.setValoremprestimo(emprestimo.getValoremprestimo());
+		emprestimoExistenteNoBanco.setValorEmprestimo(emprestimo.getValorEmprestimo());
 		//emprestimoExistenteNoBanco.setAluno(emprestimo.getAluno());
 		//emprestimoExistenteNoBanco.setLivro(emprestimo.getLivro());
 		//posso ou não colocar os que vem de OneToOne e Many
@@ -42,7 +43,7 @@ public class EmprestimoService {
 	}
 	
 	public Emprestimo deleteEmprestimo(Integer id) {
-		emprestimoRepository.deleteById(id);  
+			emprestimoRepository.deleteById(id);  
 		 return getEmprestimoById(id); 
 	}
 	
