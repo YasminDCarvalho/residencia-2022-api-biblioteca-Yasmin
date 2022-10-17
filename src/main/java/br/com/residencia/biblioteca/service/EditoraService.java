@@ -11,7 +11,6 @@ import br.com.residencia.biblioteca.dto.EditoraDTO;
 import br.com.residencia.biblioteca.entity.Editora;
 import br.com.residencia.biblioteca.repository.EditoraRepository;
 
-@Service
 public class EditoraService {
 	
 	@Autowired
