@@ -36,7 +36,6 @@ public class EditoraController {
 				HttpStatus.OK);
 	}
 	
-	
 	@GetMapping("/{id}")
 	public ResponseEntity<Editora> getEditoraById(@PathVariable Integer id) {
 		Editora editora = editoraService.getEditoraById(id);
@@ -64,6 +63,13 @@ public class EditoraController {
 	public ResponseEntity<Editora> updateEditora (@RequestBody Editora Editora, 
 			@PathVariable Integer id) {
 		return new ResponseEntity<> (editoraService.updateEditora(Editora, id), 
+			HttpStatus.OK);
+	}
+	
+	@PutMapping("/dto/{id}")
+	public ResponseEntity<EditoraDTO> updateEditoraDTO (@RequestBody EditoraDTO editoraDTO, 
+			@PathVariable Integer id) {
+		return new ResponseEntity<> (editoraService.updateEditoraDTO(editoraDTO, id), 
 			HttpStatus.OK);
 	}
 		

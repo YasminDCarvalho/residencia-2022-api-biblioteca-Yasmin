@@ -21,23 +21,43 @@ public class EditoraService {
 		return editoraRepository.findAll();
 	}
 	
-	/*private Editora converteDTOParaEntidade (EditoraDTO editoraDTO) {
-		//return
+	//como cheguei a conclusão que a conversão é comum a todos, criei os metodos de conversão de dto para entidade e de entidade para dto 
+	private Editora toEntidade (EditoraDTO editoraDTO) {
+		Editora editora = new Editora();
+		
+		editora.setNome(editoraDTO.getNome());
+		return editora;
 	}
 	
-	private EditoraDTO converteDTOParaEntidade (Editora editora) {
-		//return
+	private EditoraDTO toDTO (Editora editora) {
+		EditoraDTO editoraDTO = new EditoraDTO();
+		
+		editoraDTO.setCodigoEditora (editora.getCodigoEditora());
+		editoraDTO.setNome(editora.getNome());
+		return editoraDTO;
 	}
 
-	public List<EditoraDTO> getAllEditorasDTO () {
-		//lista de entidades que preciso transformar em uma lista de dtos 
-		return editoraRepository.findAll();
-	}*/
-	
 	public List<EditoraDTO> getAllEditorasDTO(){
-        List<EditoraDTO> listaDTO = new ArrayList<EditoraDTO>();
-        BeanUtils.copyProperties(getAllEditoras(), listaDTO);
-        return listaDTO;
+		
+		//lista de entidades que preciso transformar em uma lista de dtos 
+		List<Editora> listaEditora = editoraRepository.findAll();
+		List<EditoraDTO> listaEditoraDTO = new ArrayList<>();
+		
+		//1. Percorrer a lista de entidades Editora (chamada listaEditora)		
+		//2. Na lista de entidade, pegar cada entidade existente nela
+	
+		//lado esquerdo quem vai receber, lado direito de onde vem
+			for(Editora editora: listaEditora) {
+		
+				//3. Transformar cada entidade existente na lista em um DTO
+				EditoraDTO editoraDTO = toDTO(editora);
+				
+				//OBS: para converter a entidade no DTO, usar o metodo toDTO
+				//4. Adicionar cada DTO (que foi transformado a partir da entidade) na lista de DTO
+				listaEditoraDTO.add(editoraDTO);
+			}
+			//5. Retornar/devolver a lista de DTO preenchida
+			return listaEditoraDTO;
     }
 	
 	public Editora getEditoraById(Integer id) {
@@ -51,22 +71,67 @@ public class EditoraService {
 	
 	//recebe um dto e entrega uma dto
 	public EditoraDTO saveEditoraDTO(EditoraDTO editoraDTO) {
-		//nova instancia da entidade editora
-		Editora editora = new Editora();
-		//setando valor pra instancia que acabei de criar
-		editora.setNome(editoraDTO.getNome());
+		Editora editora = toEntidade(editoraDTO);
+		//nova instancia da entidade editora vazia
+		//--Editora editora = new Editora();
+		//setando valor pra instancia que acabei de criar (atribuo novo nome)
+		//--editora.setNome(editoraDTO.getNome());
 		
 		//metodo do repositorio encarregado pelo processo save, porém, só trabalha com entidade e não com dto
-		//desa forma salvei o valor que acabei de criar 
+		//dessa forma salvei o valor que acabei de criar 
+		//pego resultado do save e salvo em uma nova instancia editora 
 		Editora novaEditora = editoraRepository.save(editora);
 		
+		EditoraDTO editoraAtualizadaDTO = toDTO (novaEditora);
 		//crio um novo dto vazio 
-		EditoraDTO novaEditoraDTO = new EditoraDTO();
+		//pegar entidade e colocar dentro de um dto
+		//--EditoraDTO novaEditoraDTO = new EditoraDTO();
 		
 		//seto o código e nome pegando da novaEditora
-		novaEditoraDTO.setCodigoEditora (novaEditora.getCodigoEditora());
-		novaEditoraDTO.setNome(novaEditora.getNome());
-		return novaEditoraDTO; 
+		//atribuir o valor de novaEditora e novaEditoraDTO
+		//--novaEditoraDTO.setCodigoEditora (novaEditora.getCodigoEditora());
+		//--novaEditoraDTO.setNome(novaEditora.getNome());
+		return editoraAtualizadaDTO; 
+	}
+
+/*
+	//duas formas de otimização
+	public EditoraDTO saveEditoraDTOOtimizado(EditoraDTO editoraDTO) {
+		Editora novaEditora = editoraRepository.save(toEntidade(editoraDTO));
+		return toDTO (novaEditora);
+	}
+	
+	public EditoraDTO saveEditoraDTOOtimizadoTwo (EditoraDTO editoraDTO) {
+		return toDTO (editoraRepository.save(toEntidade(editoraDTO)));
+	}
+*/
+	
+	public EditoraDTO updateEditoraDTO (EditoraDTO editoraDTO, Integer id) {
+		//pego a editora caso o id exista (igual o outro update) - guardo a editora pega pelo id
+		Editora editoraExistenteNoBanco = getEditoraById(id);
+		//crio nova editora dto
+		EditoraDTO editoraAtualizadaDTO = new EditoraDTO();
+		
+		//verificação se for null
+		if(editoraExistenteNoBanco != null) {
+			
+			//toEntidade seta o nome 
+			editoraExistenteNoBanco = toEntidade(editoraDTO);
+			
+			//atualizar os dados da instancia 
+			//editoraExistenteNoBanco.setCodigoEditora(id);
+			//altero o nome a partir do nome que recebi no editoraDTO
+			//--editoraExistenteNoBanco.setNome(editoraDTO.getNome());
+			//salvo ele atualizado
+			Editora editoraAtualizada = editoraRepository.save(editoraExistenteNoBanco);
+			
+			//toDTO seta codigo e nome 
+			editoraAtualizadaDTO = toDTO(editoraAtualizada);
+			//seto o dto a partir da editoraAtualizada 
+			//--editoraAtualizadaDTO.setCodigoEditora(editoraAtualizada.getCodigoEditora());
+			//--editoraAtualizadaDTO.setNome(editoraAtualizada.getNome());
+		}
+		return editoraAtualizadaDTO;
 	}
 	
 	public Editora updateEditora (Editora editora, Integer id) {
