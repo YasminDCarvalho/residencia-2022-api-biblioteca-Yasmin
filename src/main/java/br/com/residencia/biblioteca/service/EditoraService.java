@@ -1,11 +1,15 @@
 package br.com.residencia.biblioteca.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import br.com.residencia.biblioteca.dto.ConsultaCnpjDTO;
 import br.com.residencia.biblioteca.dto.EditoraDTO;
 import br.com.residencia.biblioteca.dto.LivroDTO;
 import br.com.residencia.biblioteca.entity.Editora;
@@ -25,6 +29,31 @@ public class EditoraService {
 	
 	@Autowired
 	LivroService livroService;
+	
+	public ConsultaCnpjDTO consultaCnpjApiExterna (String cnpj) {
+		//classe que faz parte do spring, cliente http
+		RestTemplate restTemplate = new RestTemplate();
+		String uri = "https://receitaws.com.br/v1/cnpj/{cnpj}";
+		
+		//HashMap é um tipo de array
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("cnpj", cnpj);
+		
+													//método da classe (para onde vou fazer a requisição, classe usada para quando fazer a requisição e tiver um resultado, parâmetros) 
+		ConsultaCnpjDTO consultaCnpjDTO = restTemplate.getForObject (uri, ConsultaCnpjDTO.class, params);
+		
+		return consultaCnpjDTO;
+	}
+	
+	//recebe um dto e entrega uma dto
+	public Editora saveCnpjApiExterna(String cnpj) {
+		ConsultaCnpjDTO consultaCnpjDTO = consultaCnpjApiExterna(cnpj);
+		
+		Editora editora = new Editora();
+		editora.setNome(consultaCnpjDTO.getNome());
+	
+		return editoraRepository.save(editora);
+	}
 	
 	public List<Editora> getAllEditoras () {
 		return editoraRepository.findAll();
