@@ -22,7 +22,7 @@ public class LivroService {
 	}
 	
 	//devolvo uma entidade, recebo um dto
-	private Livro toEntidade (LivroDTO livroDTO) {
+	public Livro toEntidade (LivroDTO livroDTO) {
 		Livro livro = new Livro();
 		
 		livro.setNomeLivro(livroDTO.getNomeLivro());
@@ -34,7 +34,7 @@ public class LivroService {
 	}
 	
 	//devolvo um dto, recebo uma entidade
-	private LivroDTO toDTO (Livro livro) {
+	public LivroDTO toDTO (Livro livro) {
 		LivroDTO livroDTO = new LivroDTO();
 		
 		livroDTO.setCodigoLivro(livro.getCodigoLivro());

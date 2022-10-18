@@ -3,21 +3,57 @@ package br.com.residencia.biblioteca.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.residencia.biblioteca.dto.EditoraDTO;
+import br.com.residencia.biblioteca.dto.LivroDTO;
 import br.com.residencia.biblioteca.entity.Editora;
+import br.com.residencia.biblioteca.entity.Livro;
 import br.com.residencia.biblioteca.repository.EditoraRepository;
+import br.com.residencia.biblioteca.repository.LivroRepository;
 
+@Service
 public class EditoraService {
+
 	
 	@Autowired
  	EditoraRepository editoraRepository; //instanciei
 
+	@Autowired
+ 	LivroRepository livroRepository;
+	
+	@Autowired
+	LivroService livroService;
+	
 	public List<Editora> getAllEditoras () {
 		return editoraRepository.findAll();
+	}
+	
+	public List<EditoraDTO> getAllEditorasLivrosDTO(){
+		//lista de entidade editora
+		List<Editora> listaEditora = editoraRepository.findAll();
+		//lista de entidade editoraDTO
+		List<EditoraDTO> listaEditoraDTO = new ArrayList<>();
+		
+			for(Editora editora: listaEditora) {
+				EditoraDTO editoraDTO = toDTO(editora);
+				List<Livro> listaLivros = new ArrayList<>();
+				List<LivroDTO> listaLivrosDTO = new ArrayList<>();
+				
+				//fui no repositório para poder usar o método findByEditora
+				listaLivros = livroRepository.findByEditora(editora);
+				for(Livro livro : listaLivros) {
+					LivroDTO livroDTO = livroService.toDTO(livro);
+					listaLivrosDTO.add(livroDTO);
+				}
+				
+				editoraDTO.setListaLivrosDTO(listaLivrosDTO);
+				listaEditoraDTO.add(editoraDTO);
+			}
+			
+			return listaEditoraDTO;
+
 	}
 	
 	//como cheguei a conclusão que a conversão é comum a todos, criei os metodos de conversão de dto para entidade e de entidade para dto 
