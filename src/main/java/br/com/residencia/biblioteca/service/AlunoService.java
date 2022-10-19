@@ -1,24 +1,64 @@
 package br.com.residencia.biblioteca.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.residencia.biblioteca.dto.AlunoDTO;
+import br.com.residencia.biblioteca.dto.AlunoEmprestimoDTO;
+import br.com.residencia.biblioteca.dto.EditoraDTO;
+import br.com.residencia.biblioteca.dto.LivroDTO;
 import br.com.residencia.biblioteca.entity.Aluno;
+import br.com.residencia.biblioteca.entity.Editora;
+import br.com.residencia.biblioteca.entity.Livro;
 import br.com.residencia.biblioteca.repository.AlunoRepository;
+import br.com.residencia.biblioteca.repository.EmprestimoRepository;
 
 @Service
 public class AlunoService {
 	@Autowired
  	AlunoRepository alunoRepository; //instanciei
+	
+	@Autowired
+ 	EmprestimoRepository emprestimoRepository;
+	
+	@Autowired
+	EmprestimoService emprestimoService;
 
 	//metodo - devolve uma lista de alunos
 				//Aluno = entidade
 	public List<Aluno> getAllAlunos () {
 		return alunoRepository.findAll();
 	}
+	
+	/*
+	public List<AlunoEmprestimoDTO> getAllEmprestimosAlunoDTO(){
+		//lista de entidade aluno
+		List<Aluno> listaAluno = alunoRepository.findAll();
+		//lista de entidade editoraDTO
+		List<EditoraDTO> listaEditoraDTO = new ArrayList<>();
+		
+			for(Editora editora: listaEditora) {
+				EditoraDTO editoraDTO = toDTO(editora);
+				List<Livro> listaLivros = new ArrayList<>();
+				List<LivroDTO> listaLivrosDTO = new ArrayList<>();
+				
+				//fui no repositório para poder usar o método findByEditora
+				listaLivros = livroRepository.findByEditora(editora);
+				for(Livro livro : listaLivros) {
+					LivroDTO livroDTO = livroService.toDTO(livro);
+					listaLivrosDTO.add(livroDTO);
+				}
+				
+				editoraDTO.setListaLivrosDTO(listaLivrosDTO);
+				listaEditoraDTO.add(editoraDTO);
+			}
+			
+			return listaEditoraDTO;
+	}
+*/
 	
 	public Aluno getAlunoById(Integer id) {
 		//return alunoRepository.findById(id).get();
