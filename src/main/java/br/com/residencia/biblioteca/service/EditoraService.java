@@ -30,6 +30,9 @@ public class EditoraService {
 	@Autowired
 	LivroService livroService;
 	
+	@Autowired 
+	EmailService emailService;
+	
 	public ConsultaCnpjDTO consultaCnpjApiExterna (String cnpj) {
 		//classe que faz parte do spring, cliente http
 		RestTemplate restTemplate = new RestTemplate();
@@ -197,6 +200,9 @@ public class EditoraService {
 			//--editoraAtualizadaDTO.setCodigoEditora(editoraAtualizada.getCodigoEditora());
 			//--editoraAtualizadaDTO.setNome(editoraAtualizada.getNome());
 		}
+		emailService.sendEmail("yasmimd_carvalho@hotmail.com", "Teste de envio de e-mail", 
+				editoraAtualizadaDTO.toString());
+		
 		return editoraAtualizadaDTO;
 	}
 	

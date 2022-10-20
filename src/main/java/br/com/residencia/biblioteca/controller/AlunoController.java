@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.residencia.biblioteca.dto.AlunoDTO;
+import br.com.residencia.biblioteca.dto.AlunoEmprestimoDTO;
 import br.com.residencia.biblioteca.entity.Aluno;
 import br.com.residencia.biblioteca.service.AlunoService;
 
@@ -27,6 +29,18 @@ public class AlunoController {
 	@GetMapping
 	public ResponseEntity<List<Aluno>> getAllAlunos () {
 		return new ResponseEntity<> (alunoService.getAllAlunos(), 
+				HttpStatus.OK);
+	}
+	
+	@GetMapping("/dto")
+	public ResponseEntity<List<AlunoDTO>> getAllAlunosDTO () {
+		return new ResponseEntity<> (alunoService.getAllAlunosDTO(), 
+				HttpStatus.OK);
+	}
+	
+	@GetMapping("/emprestimos-alunos")
+	public ResponseEntity<List<AlunoEmprestimoDTO>> getAllEmprestimosAlunoDTO () {
+		return new ResponseEntity<> (alunoService.getAllEmprestimosAlunoDTO(), 
 				HttpStatus.OK);
 	}
 	

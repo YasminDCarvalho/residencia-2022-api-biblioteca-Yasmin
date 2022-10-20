@@ -29,6 +29,16 @@ public class EditoraDTO {
 
 	public void setListaLivrosDTO(List<LivroDTO> listaLivrosDTO) {
 		this.listaLivrosDTO = listaLivrosDTO;
+	}
+
+	@Override
+	public String toString() {
+		return "EditoraDTO [codigoEditora=" + codigoEditora + ", nome=" + nome + ", listaLivrosDTO=" + listaLivrosDTO
+				+ ", getCodigoEditora()=" + getCodigoEditora() + ", getNome()=" + getNome() + ", getListaLivrosDTO()="
+				+ getListaLivrosDTO() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	} 
+	
+	
 	
 }

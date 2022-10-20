@@ -1,14 +1,12 @@
 package br.com.residencia.biblioteca.dto;
 
-import java.math.BigDecimal;
 import java.time.Instant;
 
-public class EmprestimoDTO {
+public class EmprestimoAlunoDTO {
 
 	private Integer codigoEmprestimo;
 	private Instant dataEmprestimo;
 	private Instant dataEntrega;
-	private BigDecimal valorEmprestimo;
 	
 	public Integer getCodigoEmprestimo() {
 		return codigoEmprestimo;
@@ -27,12 +25,6 @@ public class EmprestimoDTO {
 	}
 	public void setDataEntrega(Instant dataEntrega) {
 		this.dataEntrega = dataEntrega;
-	}
-	public BigDecimal getValorEmprestimo() {
-		return valorEmprestimo;
-	}
-	public void setValorEmprestimo(BigDecimal valorEmprestimo) {
-		this.valorEmprestimo = valorEmprestimo;
 	}
 	
 }

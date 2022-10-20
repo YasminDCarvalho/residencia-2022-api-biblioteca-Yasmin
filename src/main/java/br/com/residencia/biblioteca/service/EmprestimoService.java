@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.residencia.biblioteca.dto.EmprestimoAlunoDTO;
 import br.com.residencia.biblioteca.dto.EmprestimoDTO;
 import br.com.residencia.biblioteca.entity.Emprestimo;
 import br.com.residencia.biblioteca.repository.EmprestimoRepository;
@@ -61,19 +62,29 @@ public class EmprestimoService {
 		
 		emprestimo.setDataEmprestimo(emprestimoDTO.getDataEmprestimo());
 		emprestimo.setDataEntrega(emprestimoDTO.getDataEntrega());
-		emprestimo.setValorEmprestimo(emprestimoDTO.getValorEmprestimo());
+		//emprestimo.setValorEmprestimo(emprestimoDTO.getValorEmprestimo());
 
 		
 		return emprestimo;
 	}
 	
-	private EmprestimoDTO toDTO (Emprestimo emprestimo) {
+	EmprestimoDTO toDTO (Emprestimo emprestimo) {
 		EmprestimoDTO emprestimoDTO = new EmprestimoDTO();
 		
 		emprestimoDTO.setCodigoEmprestimo(emprestimo.getCodigoEmprestimo());
 		emprestimoDTO.setDataEmprestimo(emprestimo.getDataEmprestimo());
 		emprestimoDTO.setDataEntrega(emprestimo.getDataEntrega());
 		emprestimoDTO.setValorEmprestimo(emprestimo.getValorEmprestimo());
+		
+		return emprestimoDTO;
+	}
+	
+	EmprestimoAlunoDTO toDTO2 (Emprestimo emprestimo) {
+		EmprestimoAlunoDTO emprestimoDTO = new EmprestimoAlunoDTO();
+		
+		emprestimoDTO.setCodigoEmprestimo(emprestimo.getCodigoEmprestimo());
+		emprestimoDTO.setDataEmprestimo(emprestimo.getDataEmprestimo());
+		emprestimoDTO.setDataEntrega(emprestimo.getDataEntrega());
 		
 		return emprestimoDTO;
 	}

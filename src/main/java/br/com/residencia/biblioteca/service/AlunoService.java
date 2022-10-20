@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.residencia.biblioteca.dto.AlunoDTO;
 import br.com.residencia.biblioteca.dto.AlunoEmprestimoDTO;
-import br.com.residencia.biblioteca.dto.EditoraDTO;
-import br.com.residencia.biblioteca.dto.LivroDTO;
+import br.com.residencia.biblioteca.dto.EmprestimoAlunoDTO;
 import br.com.residencia.biblioteca.entity.Aluno;
-import br.com.residencia.biblioteca.entity.Editora;
-import br.com.residencia.biblioteca.entity.Livro;
+import br.com.residencia.biblioteca.entity.Emprestimo;
 import br.com.residencia.biblioteca.repository.AlunoRepository;
 import br.com.residencia.biblioteca.repository.EmprestimoRepository;
 
@@ -33,32 +31,54 @@ public class AlunoService {
 		return alunoRepository.findAll();
 	}
 	
-	/*
+public List<AlunoDTO> getAllAlunosDTO(){
+		
+		List<Aluno> listaAluno = alunoRepository.findAll();
+		List<AlunoDTO> listaAlunoDTO = new ArrayList<>();
+		
+			for(Aluno aluno: listaAluno) {
+		
+				AlunoDTO alunoDTO = toDTO(aluno);
+				
+				listaAlunoDTO.add(alunoDTO);
+			}
+		
+			return listaAlunoDTO;
+    }
+	
+	//get all lista de emprestimos
 	public List<AlunoEmprestimoDTO> getAllEmprestimosAlunoDTO(){
 		//lista de entidade aluno
 		List<Aluno> listaAluno = alunoRepository.findAll();
-		//lista de entidade editoraDTO
-		List<EditoraDTO> listaEditoraDTO = new ArrayList<>();
+		//lista de entidade AlunoEmprestimoDTO
+		List<AlunoEmprestimoDTO> listaAlunoEmprestimoDTO = new ArrayList<>();
 		
-			for(Editora editora: listaEditora) {
-				EditoraDTO editoraDTO = toDTO(editora);
-				List<Livro> listaLivros = new ArrayList<>();
-				List<LivroDTO> listaLivrosDTO = new ArrayList<>();
+			for(Aluno aluno: listaAluno) {
+				AlunoEmprestimoDTO alunoEmprestimoDTO = toDTO2(aluno);
+				List<Emprestimo> listaEmprestimos = new ArrayList<>();
+				List<EmprestimoAlunoDTO> listaEmprestimosDTO = new ArrayList<>();
 				
-				//fui no repositório para poder usar o método findByEditora
-				listaLivros = livroRepository.findByEditora(editora);
-				for(Livro livro : listaLivros) {
-					LivroDTO livroDTO = livroService.toDTO(livro);
-					listaLivrosDTO.add(livroDTO);
+				
+				//crio uma lista de emprestimos para cada aluno
+				listaEmprestimos = emprestimoRepository.findByAluno(aluno);
+				
+				//for pega a lista de emprestimo e converte para dto
+				for(Emprestimo emprestimo : listaEmprestimos) {
+					//Conversão para DTO
+					EmprestimoAlunoDTO emprestimoDTO = emprestimoService.toDTO2(emprestimo);
+					
+					//pega os emprestimos convertidos e coloca na listaEmprestimoDTO
+					listaEmprestimosDTO.add(emprestimoDTO);
 				}
 				
-				editoraDTO.setListaLivrosDTO(listaLivrosDTO);
-				listaEditoraDTO.add(editoraDTO);
+				//seta no aluno a lista de emprestimos
+				alunoEmprestimoDTO.setListaEmprestimosDTO(listaEmprestimosDTO);
+				listaAlunoEmprestimoDTO.add(alunoEmprestimoDTO);
 			}
 			
-			return listaEditoraDTO;
+			return listaAlunoEmprestimoDTO;
 	}
-*/
+
 	
 	public Aluno getAlunoById(Integer id) {
 		//return alunoRepository.findById(id).get();
@@ -131,6 +151,16 @@ public class AlunoService {
 		alunoDTO.setNumeroMatriculaAluno(aluno.getNumeroMatriculaAluno());
 		
 		return alunoDTO;
+	}
+	
+	private AlunoEmprestimoDTO toDTO2 (Aluno aluno) {
+		AlunoEmprestimoDTO alunoEmprestimoDTO = new AlunoEmprestimoDTO();
+		
+		alunoEmprestimoDTO.setNome(aluno.getNome());
+		alunoEmprestimoDTO.setCpf(aluno.getCpf());
+		alunoEmprestimoDTO.setNumeroMatriculaAluno(aluno.getNumeroMatriculaAluno());
+		
+		return alunoEmprestimoDTO;
 	}
 }
 
