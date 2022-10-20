@@ -6,6 +6,36 @@ public class EditoraDTO {
 	private Integer codigoEditora;
 	private String nome;
 	private List<LivroDTO> listaLivrosDTO;
+	
+	//para uso de upload de imagem 
+	private String imagemNome;
+	private String imagemFileName;
+	private String imagemUrl;
+
+	public String getImagemNome() {
+		return imagemNome;
+	}
+
+	public void setImagemNome(String imagemNome) {
+		this.imagemNome = imagemNome;
+	}
+
+	public String getImagemFileName() {
+		return imagemFileName;
+	}
+
+	public void setImagemFileName(String imagemFileName) {
+		this.imagemFileName = imagemFileName;
+	}
+
+	public String getImagemUrl() {
+		return imagemUrl;
+	}
+
+	public void setImagemUrl(String imagemUrl) {
+		this.imagemUrl = imagemUrl;
+	}
+	//fim
 
 	public Integer getCodigoEditora() {
 		return codigoEditora;

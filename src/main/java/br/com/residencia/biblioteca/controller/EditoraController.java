@@ -1,9 +1,11 @@
 package br.com.residencia.biblioteca.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.residencia.biblioteca.dto.ConsultaCnpjDTO;
 import br.com.residencia.biblioteca.dto.EditoraDTO;
@@ -24,6 +28,24 @@ import br.com.residencia.biblioteca.service.EditoraService;
 public class EditoraController {
 	@Autowired
 	EditoraService editoraService;	
+	
+	//para uso de upload de imagem 
+						//endereço
+	@PostMapping(value = "/cadastro-editora-com-foto",
+				//tipos de midia
+				consumes = {MediaType.APPLICATION_JSON_VALUE,
+						MediaType.MULTIPART_FORM_DATA_VALUE}
+	)
+	public ResponseEntity<EditoraDTO> saveEditoraFoto(
+			@RequestPart("editora") String editoraTxt,
+			@RequestPart("filename") MultipartFile file
+	)throws IOException {
+		EditoraDTO editoraDTO = editoraService.saveEditoraFoto(editoraTxt, file);
+		if(editoraDTO == null)
+			return new ResponseEntity<>(editoraDTO, HttpStatus.BAD_REQUEST);
+		else
+			return new ResponseEntity<>(editoraDTO, HttpStatus.CREATED);
+	}
 	
 	@GetMapping
 	public ResponseEntity<List<Editora>> getAllEditoras () {
