@@ -1,10 +1,10 @@
 package br.com.residencia.biblioteca.exception;
 
-import java.util.List;
-import java.net.http.HttpHeaders;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -55,7 +55,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 	
-	/*
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -68,5 +67,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 				details);
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
-	*/
 }

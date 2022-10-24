@@ -2,6 +2,8 @@ package br.com.residencia.biblioteca.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +62,7 @@ public class AlunoController {
 	//post envia uma informação
 	@PostMapping
 										//para dizer que o dado vai ser recebido no body da requisição
-	public ResponseEntity<Aluno> saveAluno(@RequestBody Aluno aluno) {
+	public ResponseEntity<Aluno> saveAluno(@Valid @RequestBody Aluno aluno) {
 		return new ResponseEntity<> (alunoService.saveAluno(aluno), 
 				HttpStatus.CREATED);
 	}
