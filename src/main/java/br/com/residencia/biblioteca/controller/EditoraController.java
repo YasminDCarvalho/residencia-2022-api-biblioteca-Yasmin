@@ -47,6 +47,8 @@ public class EditoraController {
 			return new ResponseEntity<>(editoraDTO, HttpStatus.CREATED);
 	}
 	
+	//fim
+	
 	@GetMapping
 	public ResponseEntity<List<Editora>> getAllEditoras () {
 		return new ResponseEntity<> (editoraService.getAllEditoras(), 

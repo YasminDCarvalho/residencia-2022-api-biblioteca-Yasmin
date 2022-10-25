@@ -61,7 +61,7 @@ public class AlunoController {
 	
 	//post envia uma informação
 	@PostMapping
-										//para dizer que o dado vai ser recebido no body da requisição
+													//para dizer que o dado vai ser recebido no body da requisição
 	public ResponseEntity<Aluno> saveAluno(@Valid @RequestBody Aluno aluno) {
 		return new ResponseEntity<> (alunoService.saveAluno(aluno), 
 				HttpStatus.CREATED);

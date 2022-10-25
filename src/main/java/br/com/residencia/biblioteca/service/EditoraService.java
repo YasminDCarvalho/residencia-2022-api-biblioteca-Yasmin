@@ -107,6 +107,7 @@ public class EditoraService {
 			e.printStackTrace();
 		}
 		
+		//salvar imagem no banco
 		//Converte os dados da editora recebidos no formato String em Entidade
 		//  Coleta os dados da imagem, após upload via API, e armazena na Entidade Editora
 		if(null != imgDTO) {
@@ -135,6 +136,7 @@ public class EditoraService {
 	}
 	//fim - para uso de upload de imagem
 	
+	//para uso de consulta cnpj api externo 
 	public ConsultaCnpjDTO consultaCnpjApiExterna (String cnpj) {
 		//classe que faz parte do spring, cliente http
 		RestTemplate restTemplate = new RestTemplate();
@@ -159,6 +161,8 @@ public class EditoraService {
 	
 		return editoraRepository.save(editora);
 	}
+	
+// fim - para uso de consulta cnpj api externo 
 	
 	public List<Editora> getAllEditoras () {
 		return editoraRepository.findAll();
